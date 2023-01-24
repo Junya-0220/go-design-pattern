@@ -5,6 +5,7 @@ import "fmt"
 // combination of OCP and Repository demo
 
 type Color int
+// 1,2,3
 
 const (
 	red Color = iota
@@ -30,6 +31,7 @@ type Filter struct {
 
 }
 
+// Output: []*Product
 func (f *Filter) filterByColor(
 	products []Product, color Color)[]*Product {
 	result := make([]*Product, 0)
@@ -70,8 +72,11 @@ func (f *Filter) filterBySizeAndColor(
 	return result
 }
 
-// filterBySize, filterBySizeAndColor
+/* filterBySize, filterBySizeAndColor
+	interfaceでSpecificationを定義する
+	IsSatisfiedメソッドを定義していて、真偽値をリターンしている。
 
+*/
 type Specification interface {
 	IsSatisfied(p *Product) bool
 }
@@ -102,7 +107,12 @@ func (spec AndSpecification) IsSatisfied(p *Product) bool {
 }
 
 type BetterFilter struct {}
-
+/*
+	BetterFilterの構造体に紐づくFilterメソッドを定義
+	引数にSpecificationのインターフェースを取って、
+	そこに定義されているIsSatisfiedを呼び出している。
+	ループの中で一致していたら配列に渡す処理をしている
+*/
 func (f *BetterFilter) Filter(
 	products []Product, spec Specification) []*Product {
 	result := make([]*Product, 0)
@@ -130,13 +140,17 @@ func main() {
 
 	// vvv AFTER
 	fmt.Print("Green products (new):\n")
-	greenSpec := ColorSpecification{green}
 	bf := BetterFilter{}
+	greenSpec := ColorSpecification{green}
 	for _, v := range bf.Filter(products, greenSpec) {
 		fmt.Printf(" - %s is green\n", v.name)
 	}
 
 	largeSpec := SizeSpecification{large}
+	fmt.Print("Large  items:\n")
+	for _, v := range bf.Filter(products, largeSpec) {
+		fmt.Printf(" - %s is large\n", v.name)
+	}
 
 	largeGreenSpec := AndSpecification{largeSpec, greenSpec}
 	fmt.Print("Large blue items:\n")
