@@ -1,4 +1,4 @@
-package main
+package solid
 
 import (
 	"fmt"
@@ -7,15 +7,33 @@ import (
 	"strings"
 )
 
+// 文字列helloを返します。
+func Hello() string {
+	return "hello"
+}
+
+/*
+
+*/
+
 var entryCount = 0
+
 type Journal struct {
 	entries []string
 }
 
+// Jounalの構造体のポインタを返却
+func NewJounal(entiry []string) *Journal {
+	return &Journal{
+		entries: entiry,
+	}
+}
+// 出力: Jounalのentriesを改行して表示
 func (j *Journal) String() string {
 	return strings.Join(j.entries, "\n")
 }
 
+// 構造体のJounalにカウントと文字列を入れて、カウントを戻り値で返す
 func (j *Journal) AddEntry(text string) int {
 	entryCount++
 	entry := fmt.Sprintf("%d: %s",
@@ -29,10 +47,7 @@ func (j *Journal) RemoveEntry(index int) {
 	// ...
 }
 
-
-
-// breaks srp
-
+// 
 func (j *Journal) Save(filename string) {
 	_ = ioutil.WriteFile(filename,
 		[]byte(j.String()), 0644)
@@ -62,16 +77,3 @@ func (p *Persistence) saveToFile(j *Journal, filename string) {
 }
 
 
-func main() {
-	j := Journal{}
-	j.AddEntry("I cried today.")
-	j.AddEntry("I ate a bug")
-	fmt.Println(strings.Join(j.entries, "\n"))
-
-	// separate function
-	SaveToFile(&j, "journal.txt")
-
-	//
-	p := Persistence{"\n"}
-	p.saveToFile(&j, "journal.txt")
-}

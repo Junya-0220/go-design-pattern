@@ -1,7 +1,16 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"go-design-pattern/pkg/solid"
+)
 
 func main() {
-	fmt.Println("hello")
+	arr := [] string{"a","b"}
+	entry := solid.NewJounal(arr)
+	entry.AddEntry("add")
+	entry.AddEntry("second")
+	result := entry.String()
+	fmt.Println(result)
 }
+
