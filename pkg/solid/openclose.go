@@ -1,4 +1,4 @@
-package main
+package solid
 
 import "fmt"
 
@@ -114,7 +114,7 @@ func (f *BetterFilter) Filter(
 	return result
 }
 
-func main() {
+func main_() {
 	apple := Product{"Apple", green, small}
 	tree := Product{"Tree", green, large}
 	house := Product{ "House", blue, large}
