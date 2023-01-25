@@ -1,8 +1,10 @@
-package main
+package solid
 
 import "fmt"
 
-
+/*
+	Size interface
+*/
 type Sized interface {
 	GetWidth() int
 	SetWidth(width int)
@@ -14,6 +16,7 @@ type Rectangle struct {
 	width, height int
 }
 
+//     vvv !! POINTER
 func (r *Rectangle) GetWidth() int {
 	return r.width
 }
@@ -30,6 +33,11 @@ func (r *Rectangle) SetHeight(height int) {
 	r.height = height
 }
 
+// modified LSP
+// If a function takes an interface and
+// works with a type T that implements this
+// interface, any structure that aggregates T
+// should also be usable in that function.
 type Square struct {
 	Rectangle
 }
@@ -59,8 +67,6 @@ func (s *Square2) Rectangle() Rectangle {
 	return Rectangle{s.size, s.size}
 }
 
-
-
 func UseIt(sized Sized) {
 	width := sized.GetWidth()
 	sized.SetHeight(10)
@@ -70,7 +76,7 @@ func UseIt(sized Sized) {
 		", but got ", actualArea, "\n")
 }
 
-func main() {
+func main__() {
 	rc := &Rectangle{2, 3}
 	UseIt(rc)
 

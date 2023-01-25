@@ -72,12 +72,11 @@ func (f *Filter) filterBySizeAndColor(
 	return result
 }
 
-/* filterBySize, filterBySizeAndColor
+/* 
 	interfaceでSpecificationを定義する
 	IsSatisfiedメソッドを定義していて、真偽値をリターンしている。
 
 */
-
 type Specification interface {
 	IsSatisfied(p *Product) bool
 }
@@ -115,7 +114,6 @@ type BetterFilter struct {}
 	そこに定義されているIsSatisfiedを呼び出している。
 	ループの中で一致していたら配列に渡す処理をしている
 */
-
 func (f *BetterFilter) Filter(
 	products []Product, spec Specification) []*Product {
 	result := make([]*Product, 0)
